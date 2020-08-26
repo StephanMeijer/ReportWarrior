@@ -1,6 +1,6 @@
 {
   "name": "reportwarrior",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Tooling to create reports from TaskWarrior using Mozilla Nunjucks.",
   "main": "src/report.js",
   "bin": {

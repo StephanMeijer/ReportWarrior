@@ -50,12 +50,22 @@ if (config.registerFilters) {
     config.registerFilters(njk);
 }
 
-process.stdin.on('readable', () => {
-    const data = process.stdin.read();
-    if (data !== null) {
+const processData = (data) => {
+    if (data) {
         const tasks = JSON.parse(data);
 
         const html = njk.renderString(template, { autoescape: false, tasks });
         console.log(html);
+    } else {
+        error('No data given.');
+        process.exit(1);
     }
-});
+};
+
+let data = "";
+
+process.stdin.resume();
+process.stdin.setEncoding("utf8");
+
+process.stdin.on("data", (chunk) => { data += chunk });
+process.stdin.on("end", () => { processData(data); });
