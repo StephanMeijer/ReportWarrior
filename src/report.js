@@ -14,7 +14,7 @@ const error = (msg) => console.error(chalk.whiteBright.bgRed.bold(msg));
 
 const program = new Command();
 
-program.version('1.0.0');
+program.version('0.1.0');
 program.option('-f --flow <flow>', 'Flow to be read from configuration');
 program.parse(process.argv);
 
