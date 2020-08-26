@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "Report using TaskWarrior and templating",
   "main": "src/report.js",
+  "bin": {
+    "reportwarrior": "src/report.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -22,10 +25,7 @@
     "chalk": "^4.1.0",
     "commander": "^6.0.0",
     "fs-extra": "^9.0.1",
-    "html-minifier": "^4.0.0",
     "moment": "^2.27.0",
-    "nunjucks": "^3.2.2",
-    "nunjucks-date": "^1.5.0",
-    "oclif": "^1.16.1"
+    "nunjucks": "^3.2.2"
   }
 }
