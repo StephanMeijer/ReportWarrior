@@ -1,0 +1,56 @@
+{% for task in tasks %}
+    <h2>
+        {% if task.status %}
+            <span style="font-weight: bold;{% if task.status == 'pending' %}background-color: orange;{% elseif task.status == 'completed' %}color:white; background-color: green;{% else %}color:white; background-color: red;{% endif %}">&nbsp;{{ task.status | capitalize }}&nbsp;</span>
+        {% endif %}
+        {% if task.project and task.description %}
+            <span>&nbsp;<i>{{ task.project }}: {{ task.description }}</i></span>
+        {% else %}
+            <span>&nbsp;<i>{{ task.description }}</i></span>
+        {% endif %}
+    </h2>
+
+    {% if task.substatus %}
+        <p><b>{{ task.substatus }}</b></p>
+    {% endif %}
+
+    {% if task.priority or task.due or task.scheduled %}
+    <table>
+        {% if task.priority %}
+        <tr>
+            <th>Priority</th>
+            <td>{{ task.priority | priority | capitalize }}</td>
+        </tr>
+        {% endif %}
+
+        {% if task.due %}
+        <tr>
+            <th>Deadline</th>
+            <td>{{ task.due }}</td>
+        </tr>
+        {% endif %}
+
+        {% if task.scheduled %}
+        <tr>
+            <th>Scheduled</th>
+            <td>{{ task.scheduled }}</td>
+        </tr>
+        {% endif %}
+    </table>
+    {% endif %}
+
+    {% if task.annotations %}
+        <div>
+            <h3>Log:</h3>
+            <ol>
+                {% for annotation in task.annotations %}
+                    <li>{{ annotation.description }}</li>
+                {% endfor %}
+            </ol>
+        </div>
+    {% endif %}
+
+    <small>Task ref {{ task.uuid }}</small>
+
+    <hr/>
+{% endfor %}
