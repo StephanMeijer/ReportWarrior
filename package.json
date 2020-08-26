@@ -21,6 +21,10 @@
   ],
   "author": "Stephan Meijer <me@stephanmeijer.com>",
   "license": "MIT",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/StephanMeijer/ReportWarrior.git"
+  },
   "dependencies": {
     "chalk": "^4.1.0",
     "commander": "^6.0.0",
