@@ -1,6 +1,6 @@
 {
   "name": "reportwarrior",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Tooling to create reports from TaskWarrior using Mozilla Nunjucks.",
   "main": "src/report.js",
   "bin": {
@@ -22,14 +22,13 @@
   "author": "Stephan Meijer <me@stephanmeijer.com>",
   "license": "MIT",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/StephanMeijer/ReportWarrior.git"
+    "type": "git",
+    "url": "https://github.com/StephanMeijer/ReportWarrior.git"
   },
   "dependencies": {
     "chalk": "^4.1.0",
     "commander": "^6.0.0",
     "fs-extra": "^9.0.1",
-    "moment": "^2.27.0",
     "nunjucks": "^3.2.2"
   }
 }
