@@ -102,4 +102,15 @@ In Gmail, you can easily create new labels. Those are usable by IMAP clients suc
 
 ### SMTP
 
-To be documented.
+Due to somewhat more complexity (we need to insert the sender and receiver and still maintain the template as is), we use a somewhat different oneliner for sending email using SMTP:
+
+```bash
+$ export TMP=$(mktemp); task export | reportwarrior -f email > $TMP && curl -kv --url "smtps://smtp.gmail.com:465/" --user "user@gmail.com:password" --mail-from "$(grep -P "^From:.*<(.*)>" $TMP | grep -o "<.*>" | sed -e 's/^.//' -e 's/.$//')" --mail-rcpt "$(grep -P "^To:.*<(.*)>" $TMP | grep -o "<.*>" | sed -e 's/^.//' -e 's/.$//')" -T $TMP
+```
+
+The chained `grep` and `sed` are responsible for optaining the `From` and `To` header from the sender. I hope I will find an easier way to do this, but this works for now.
+
+```bash
+--mail-from "$(grep -P "^From:.*<(.*)>" $TMP | grep -o "<.*>" | sed -e 's/^.//' -e 's/.$//')"
+```
+
