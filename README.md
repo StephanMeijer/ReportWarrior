@@ -87,8 +87,3 @@ module.exports = {
 ## Templates
 
 Templates are using [Mozilla Nunjucks](https://mozilla.github.io/nunjucks/). You can register new Filters in the configuration file.
-
-## Todo
-
-- [ ] Support for configuring TaskWarrior commands in config.
-- [ ] Support for sending emails after genering HTML.
