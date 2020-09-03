@@ -18,10 +18,6 @@ program.version('0.1.0');
 program.option('-f --flow <flow>', 'Flow to be read from configuration');
 program.parse(process.argv);
 
-const createConfig = (path) => {
-    fs.closeSync(fs.openSync(path, 'w'))
-}
-
 if (!fs.existsSync(pathRW)) {
     const defaultConfigDir = path.resolve(__dirname, '../default-config');
     fs.copySync(defaultConfigDir, pathRW);
@@ -41,10 +37,11 @@ if (!flowConfig) {
     process.exit(1);
 }
 
-const template = fs.readFileSync(path.resolve(config.paths.templates, flowConfig.template)).toString();
- 
 // Initialize your Nunjucks enironment
-const njk = new nunjucks.Environment();
+const njk = new nunjucks.Environment(
+    new nunjucks.FileSystemLoader(config.paths.templates),
+    { autoescape: false }
+);
 
 if (config.registerFilters) {
     config.registerFilters(njk);
@@ -54,7 +51,7 @@ const processData = (data) => {
     if (data) {
         const tasks = JSON.parse(data);
 
-        const html = njk.renderString(template, { autoescape: false, tasks });
+        const html = njk.render(flowConfig.template, { tasks });
         console.log(html);
     } else {
         error('No data given.');

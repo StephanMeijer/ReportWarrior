@@ -16,6 +16,7 @@ First usage will install configuration in ~/.reportwarrior.
 $ task export | reportwarrior -f basic
 $ task export | reportwarrior --flow clientAbc
 ```
+
 ## Example output:
 
 ```html
@@ -61,8 +62,6 @@ $ task export | reportwarrior --flow clientAbc
 
 In the configuration, as seen as below, there are options to create your own titles, recipients and use specific templates per flow. In the configuration, you could even define `momentjs`-filters for Mozilla Nunjucks or use `momentjs` in your configuration. To do that, first run `npm init && npm install --save moment` in your `~/.reportwarrior`-directory.
 
-On the moment, attributes `$.flows[*].recipients` and `$.flows[*].title` are not being used, because there isn't any email-support yet.
-
 ```js
 const os = require('os');
 const path = require('path');
@@ -71,15 +70,10 @@ module.exports = {
     registerFilters: (njk) => {
         njk.addFilter('priority', p => ({ 'H': 'High', 'M': 'Medium', 'L': 'Low' })[p])
     },
-    paths: {
-	templates: path.resolve(os.homedir(), '.reportwarrior/templates')
-    },
+    paths: { templates: path.resolve(os.homedir(), '.reportwarrior/templates') },
     flows: {
-        basic: {
-            template: "basic.html.njk",
-            recipients: [ 'HelloThere@example.com' ],
-            title: "[UPDATE] Basic Todo-list"
-        },
+        basic: { template: "basic.html.njk" },
+        email: { template: "email.html.njk" },
     }
 }
 ```
@@ -88,7 +82,24 @@ module.exports = {
 
 Templates are using [Mozilla Nunjucks](https://mozilla.github.io/nunjucks/). You can register new Filters in the configuration file.
 
-## Todo
+## Use with email
 
-- [ ] Support for configuring TaskWarrior commands in config.
-- [ ] Support for sending emails after genering HTML.
+### IMAP
+
+Taskwarrior can easily be used in combination with IMAP. I personally use this to create a Draft on the remote server, to be able to check it and send it later on. You can even make a cronjob out of it.
+
+```bash
+$ TMP=$(mktemp); task export | reportwarrior -f email > $TMP && curl --url "imaps://imap.gmail.com:993/%5BGmail%5D%2FDrafts" --user "user@gmail.com:password" -T $TMP && rm $TMP
+```
+
+In this example, please replace the URL, TaskWarrior filters, username and password appropriately. You can replace the encoded suffix `[Gmail]Drafts` with any you want. For a IMAP representation of labels:
+
+```bash
+$ curl --url "imaps://imap.gmail.com:993/" --user "user@gmail.com:password"
+```
+
+In Gmail, you can easily create new labels. Those are usable by IMAP clients such as cURL.
+
+### SMTP
+
+To be documented.
